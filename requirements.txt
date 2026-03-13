@@ -1,0 +1,15 @@
+fastapi==0.135.1          # API framework
+uvicorn[standard]==0.25.0 # ASGI server
+pandas==2.3.3             # analiza danych
+numpy==1.27.5             # potrzeba Pandas
+pydantic==2.12.5          # walidacja danych
+pydantic-settings==2.13.1 # konfiguracja .env
+fitparse==1.2.0         # parser plików .fit
+SQLAlchemy==2.1.0         # ORM (opcjonalnie)
+alembic==1.13.1           # migracje bazy danych
+databases[postgresql]==0.9.0  # async DB (opcjonalnie)
+python-dotenv==1.1.1      # .env loader
+httpx==0.28.1             # HTTP requests klient
+matplotlib==3.8.0         # wykresy
+seaborn==0.13.0           # ładniejsze wykresy
+pytest==8.4.2             # test framework
