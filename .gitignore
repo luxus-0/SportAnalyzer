@@ -209,6 +209,7 @@ __marimo__/
 # JetBrains IDE
 .idea/
 *.iml
+secret.env
 
 # macOS
 .DS_Store
