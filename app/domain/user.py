@@ -1,23 +1,37 @@
-from datetime import datetime
-from uuid import UUID
+from datetime import datetime, UTC
+from uuid import UUID, uuid4
+
 
 class User:
-    id: UUID
-    username: str
-    password: str
-    email: str
-    bio: str
-    created_at: datetime
-
-    def __init__(self, user_id: str, email: str, name: str, created_at: datetime | None = None):
+    def __init__(
+            self,
+            user_id: UUID,
+            email: str,
+            username: str,
+            password_hash: str,
+            created_at: datetime,
+            bio: str = ""
+    ):
         self._id = user_id
         self._email = email
-        self._name = name
-        self._created_at = created_at or datetime.utcnow()
-        self._activities = []
+        self._username = username
+        self._password_hash = password_hash
+        self._created_at = created_at
+        self._bio = bio
+
+    @classmethod
+    def create(cls, email: str, username: str, password_hash: str) -> 'User':
+        return cls(
+            user_id=uuid4(),
+            email=email,
+            username=username,
+            password_hash=password_hash,
+            created_at=datetime.now(UTC),
+            bio=""
+        )
 
     @property
-    def id(self) -> str:
+    def id(self) -> UUID:
         return self._id
 
     @property
@@ -25,27 +39,32 @@ class User:
         return self._email
 
     @property
-    def name(self) -> str:
-        return self._name
+    def username(self) -> str:
+        return self._username
+
+    @property
+    def password_hash(self) -> str:
+        return self._password_hash
 
     @property
     def created_at(self) -> datetime:
         return self._created_at
 
     @property
-    def activities(self):
-        return list(self._activities)
+    def bio(self) -> str:
+        return self._bio
 
-    def change_name(self, new_name: str):
-        if not new_name:
-            raise ValueError("Name cannot be empty")
-        self._name = new_name
+    def update_bio(self, new_bio: str) -> None:
+        if new_bio is None:
+            raise ValueError("Bio is empty.")
 
-    def add_activity(self, activity):
-        self._activities.append(activity)
+        cleaned_bio = new_bio.strip()
+        if len(cleaned_bio) > 500:
+            raise ValueError("Bio should be max 500 characters.")
 
-    def total_distance(self):
-        return sum(activity.distance for activity in self._activities)
+        self._bio = cleaned_bio
 
-
-
+    def change_password(self, new_password_hash: str) -> None:
+        if not new_password_hash:
+            raise ValueError("New Hash password is empty.")
+        self._password_hash = new_password_hash
