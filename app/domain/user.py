@@ -66,5 +66,5 @@ class User:
 
     def change_password(self, new_password_hash: str) -> None:
         if not new_password_hash:
-            raise ValueError("New Hash password is empty.")
+            raise ValueError("Password is empty.")
         self._password_hash = new_password_hash
